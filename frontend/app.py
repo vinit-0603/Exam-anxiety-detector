@@ -1,24 +1,16 @@
 import streamlit as st
-import requests
 
-st.title("Exam Anxiety Detector")
+st.title("AI Exam Anxiety Detector")
 
-text = st.text_area("Enter your thoughts about exams")
+text = st.text_area("Enter your exam thoughts")
 
-if st.button("Predict Anxiety Level"):
+if st.button("Analyze Anxiety"):
 
-    response = requests.post(
-        "http://127.0.0.1:8000/predict",
-        params={"text": text}
-    )
+    if "nervous" in text or "scared" in text or "fail" in text:
+        st.error("High Anxiety 😟")
 
-    result = response.json()
+    elif "worried" in text or "stress" in text:
+        st.warning("Moderate Anxiety 😐")
 
-    level = result["anxiety_level"]
-
-    if level == 0:
-        st.success("Low Anxiety — You seem calm about exams.")
-    elif level == 1:
-        st.warning("Moderate Anxiety — Some exam stress detected.")
     else:
-        st.error("High Anxiety — Strong exam anxiety detected.")
+        st.success("Low Anxiety 😊")
